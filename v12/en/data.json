@@ -1,0 +1,213 @@
+{
+    "version":"0.1",
+    "pageContent":{
+      "_comments":"JSON object that contains data for page labels, buttons, etc.",
+      "navItems":{
+        "_common":{
+          "buttonBackToGallery":{
+            "name":"Back To Gallery",
+            "method":"backToGallery()",
+            "idName":"backToGallery"
+          },
+          "buttonStartTutorial":{
+            "name":"Start Tutorial",
+            "method":"startTutorialFromDetailsScreen()",
+            "idName":"startTutorial"
+          },
+          "buttonViewDetails":{
+            "name":"View Details",
+            "method":"viewDetails()",
+            "idName":"stepsViewDetails"
+          }
+        }
+      }
+    },
+	"tutorial":{
+      "_common":{
+        "name":"Open API Specification v3 - Adding an operation to a REST API using the API Editor",
+        "shortDescription":"Learn how to use the API Editor to add an operation to an IBM App Connect Enterprise REST API which conforms to the OpenAPI Specification v3",
+        "durationText":"This tutorial takes approximately",
+        "durationTime":"15 minutes",
+        "_resourceToOpenComment":"The ID of the first resource to open when the user imports the tutorial. Resource IDs are defined in the repo_metadata.json Tutorials listing on ot4i.",
+        "resourceToOpen":"TutorialHelperFiles",
+        "helpLink":{
+          "text":"IBM Knowledge Center",
+          "link":"https://www.ibm.com/support/knowledgecenter/en/SSTTDS_11.0.0/com.ibm.ace.home.doc/help_home.htm"
+        }
+      },
+      "pageDetails":{
+        "topicsName":"Tutorial Topics",
+        "_topicListComment":"A short list of product concepts or tasks demonstrated by this tutorial",
+        "topicList":[
+          {
+            "title":"IBM App Connect Enterprise REST API"		  
+          },
+          {
+            "title":"Subflows"
+          },
+          {
+            "title":"Transformation using Compute nodes."
+          }
+        ],
+        "outcomesName":"Learning outcomes",
+        "_outcomesComment":"Start learning some product basics with a very simple Toolkit use case",
+        "outcomeList":[
+          {
+            "title":"Understand how a REST API is defined, implemented, deployed, and invoked."
+          },
+		  {
+            "title":"Learn how to implement REST API operations by using subflows."
+          },
+		  {
+            "title":"Learn how to use the API Editor"
+          }
+        ],
+        "summary":{
+          "overviewName":"OVERVIEW",
+          "_overviewComment":"A short description of what happens in this tutorial, and an optional short explanation of the IIB concepts used in this tutorial if necessary for context. What background knowledge must the user have for this to make sense?",
+          "sections":[
+            {
+              "section":"IBM App Connect Enterprise provides a specific type of project to support REST API implementations, which can either be based upon a Swagger (v2) specification document or an OpenAPI (v3) specification document. REST APIs can be authored and deployed from the IBM App Connect Enterprise Toolkit. This tutorial provides a simple example Open API v3 REST API and guides you through the process of opening the API specification document in the API Editor, adding an extra operation to the API and then developing a subflow which provides its implementation. The scenario is built around the concept of a shopping list from which items can be queried, added or deleted."
+            },
+            {
+              "section":"IBM App Connect Enterprise 12 provides a new OpenAPI Editor for OpenAPI v3 REST APIs. This editor enables you to easily add new operations and message structures to your REST API, and just like the long-standing editor for Swagger v2 REST APIs, links the REST interface with the required subflow definitions which dictate what happens in the App Connect Enterprise runtime when the REST API is invoked. An operation can make use of a JSON input object and URL parameters. The operations are implemented as subflows. In this example, all of the subflows use Compute nodes for their transformation logic. The tutorial explores the example provided REST API and describes how it can be deployed and tested."
+            }			
+          ]
+        }
+      },
+      "pageSteps":{
+        "create":{
+          "overview":{
+            "name":"Create",
+            "heading":"Import project",
+            "_createComment":"A description of what will happen when the user clicks Import.",
+            "sections":[			  
+				  {
+                "section":"Click <span class='uicontrol'>Import</span> and a single REST API project named <span class='uicontrol'>ShoppingListAPI</span> will be imported into your workspace. Next, move to the Prepare section which will describe the development steps for adding an operation to the REST API using the API Editor."
+              }				
+            ]
+          },
+          "helpLinks":{
+            "title":"Find out more",
+            "details":[
+              {
+                "title":"Knowledge Center link to ",
+                "description":"Developing integration solutions from scratch",
+                "link":"https://www.ibm.com/support/knowledgecenter/en/SSTTDS_11.0.0/com.ibm.etools.mft.doc/bi12002_.htm",
+                "type":"web"
+              }
+            ]
+          },
+          "actions":{
+            "title":"Create Actions",
+            "details":[
+              {
+                "name":"Import",
+                "method":"importArtifacts()"
+              }
+            ]
+          }
+        },
+        "prepare":{
+          "overview":{
+            "name":"Prepare",
+            "heading":"Add an operation to the REST API",
+            "_prepareComment":"Creating an IntegrationServer:",
+            "sections":[
+              {
+                "section":"",
+                "steps":{
+                  "type":"ordered",
+                  "details":[                
+					{
+					"details":"After importing the <b>ShoppingListAPI</b> project, you should already have open the REST API Description page in the main window of the Toolkit. At the top of the page, in the API Details section you will find a link to <b>Edit API Document in OpenAPI Editor</b>. Click the link. If you haven't used the OpenAPI Editor before you will receive a pop-up warning you that the OpenAPI Editor will be displayed in a separate Window (as this mode of operation may not be familiar to Toolkit users from earlier versions of the product). Click OK to the warning (noting that you have a checkbox opportunity if you don't want the warning to pop up in future) and after a second or two, the OpenAPI Editor will open."
+					},
+					{
+					"details": "The OpenAPI Editor has a navigation menu on the left side of the window, which has a Seach function, and below that it has separate sections for each top-level part of the document named Components, General and Paths. Expand the section Components > Schemas and click on the first child under <b>Schemas</b> which is named <b>Item</b>. Scroll down the Item Schema definition using the scroll bar on the right, and you will see the object has properties defined for its <b>name</b>, <b>department</b> and <b>description</b>. These three properties are provided for each item on the shopping list. In the next set of instructions we will add an operation for retrieving an Item using a GET verb, which will reuse this schema definition."
+
+					},
+					{
+					"details":"Using the left navigation tree, expand <b>Paths</b> and then expand <b>/shoppinglist/{item}</b>  and <b>Operations</b>. You will see that currently the /shoppinglist/{item} resource has two operations defined - PUT and DELETE. We will add a third GET operation now. Next to where the tree shows Operations (2) you will see a blue plus sign inside a blue circle. Click this icon and in the pop-up:<br>select <b>get</b> from the <b>Verb (Key)</b> dropdown<br>Type the summary of <code>Retrieve a specific item</code><br>Type the description of <code>The name of the item</code><br>Click the <b>Create</b> button. You will see that GET is now added to the Operations in the left menu, but it will be marked with an error because we have not yet added a required response property. Click the blue plus sign icon next to the child of GET named <b>Responses (0)</b>. In the pop-up, keep the provided default <b>Response name</b> of <code>200</code><br>Type the description of <code>Expected response to a valid request</code><br>Click the <b>Create</b> button and then scroll to the top of the page and click the Save button. Just beneath the save button you will see two buttons - if you hover over them you will see one is named Form and the other Source. Up to now we have been using the Form view, but if you click on Source, you will see that you can also edit the API document. You should be able to find the part we have been adding so far between lines 76 and 80. In the Source layout, it will look like this:<br><br><code>&nbsp;&nbsp;&nbsp;&nbsp;get:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;responses:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'200':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description: Expected response to a valid request<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: {}</code><br><br>Edit this section of the code so that it looks like this:<br><br><code>&nbsp;&nbsp;&nbsp;&nbsp;get:<br>&nbsp;&nbsp;&nbsp;&nbsp;summary: Retrieve a specific item<br>&nbsp;&nbsp;&nbsp;&nbsp;parameters:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: item<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in: path<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;required: true<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description: The name of the item<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;schema:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ref: '#/components/schemas/ItemName'<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;responses:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'200':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description: Expected response to a valid request<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;application/json:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;schema:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ref: '#/components/schemas/Item'<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description: unexpected error<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;application/json:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;schema:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ref: '#/components/schemas/Error'<br></code><br>Click the Save button at the top of the screen and switch back to the Form layout again."
+					},
+					{						
+					"details": "Find the create subflow button"	
+					},					
+					{
+						"details":"LEFT OVERS ... Right click the <b>ShoppingListAPI</b> and choose New > Broker Schema. Type the Schema name <b>utils</b> and click Finish. A Broker Schema is like a package or folder which provides a scoping to hold artifacts such as ESQL files. Switch to the Resource perspective using the menu Window > Perspective > Open Perspective > Other ... then choose Resource and click Open. Using the Project Explorer view in the top left corner, copy the file <b>Compute.esql</b> from the project named <b>TutorialHelperFiles</b> into the <b>utils</b> folder in the project <b>ShoppingListAPI</b>. Switch back to the Application Development perspective using the Window > Perspective > Open Perspective menu. Return to the getShoppingList subflow and on the Compute node's properties update the ESQL module property to the valye <code>{Utils}:getItem_Compute</code>. Save the subflow and the red error on the Compute node should disappear."
+					},
+					{
+				"details": "Back on the ShoppingListAPI descriptor page you will notice that the <b>Create subflow</b> button will have turned into an <b>Edit subflow</b> button. Repeat the same steps we just went through for the remaining four operations. Each operation subflow will use a Compute node, each of which will need the Compute mode of <b>LocalEnvironment and Message</b>. Configure each ESQL Module to point to the one with the matching name in the provided ESQL file. When you're done you should have five subflows all completed - one for each of the five operations, and there should be no remaining errors reported."			
+					}
+					]
+                }
+              },
+			  {
+                "section":"<b>Create an integration server and deploy the REST API</b>",
+                "steps":{
+                  "type":"ordered",
+                  "details":[                
+					{
+                      "details":"From the Integration Explorer view in the bottom left corner of the Toolkit, right-click the Integration Servers folder and select the option to <span class='uicontrol'>Create a local integration server</span>. Leave all the options with their default values and click Finish. The local Integration Server will be started, using a project in your Toolkit's workspace as the work directory. Click OK to dismiss the Success dialog."
+                    },
+					{
+                      "details":"In the <b>Independent Resources</b> section of the Application Development view in the top left corner of the Toolkit, you will find the project named <b>TEST_SERVER</b> which holds the working directory for the local Integration Server which you just started. Open the server.conf.yaml file in this project and edit the settings in the HTTPConnector section in order to enable the settings required to enable the server to respond to valid HTTP CORS requests. These alterations will enable you to test the deployed REST API from the App Connect Enterprise Web UI, should you wish to later in the tutorial:<br><br><code>&nbsp;&nbsp;HTTPConnector:<br>&nbsp;&nbsp;&nbsp;&nbsp;CORSEnabled: true<br>&nbsp;&nbsp;&nbsp;&nbsp;CORSAllowOrigins: '*'<br>&nbsp;&nbsp;&nbsp;&nbsp;CORSAllowMethods: 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS'<br>&nbsp;&nbsp;&nbsp;&nbsp;CORSAllowHeaders: 'Accept,Accept-Language,Content-Language,Content-Type'<br></code><br><br>Save the changes to the <b>server.conf.yaml</b> file. For the changes to take effect, the server must be restarted. Right click <b>TEST_SERVER</b> in the Integration Explorer view in the bottom left and stop the server. Once it stops, right-click the server again and start it."
+                    },
+					{
+					"details":"Deploy the REST API which we created earlier named <b>ShoppingListAPI</b>, by dragging and dropping it from the Application Development view on to the <b>TEST_SERVER</b> Integration Server"
+					}
+                  ]
+                }
+              }
+            ]
+          }
+        },		
+        "run":{
+          "overview":{
+            "name":"Run",
+            "heading":"Test the message flow using the local Integration Server",
+            "_runComment":"The full steps for the user to run through the tutorial. Use 'sections' to render paragraphs, 'steps' with a type of 'ordered' or 'unordered' to render HTML lists, and 'substeps' to render nested lists.",
+            "sections":[
+              {
+                "section":"",
+                "steps":{
+                  "type":"ordered",
+                  "details":[
+                    {
+                      "details":"If you wish, you can test the deployed REST API using your own preferred HTTP or REST client, but we will describe using the IBM App Connect Enterprise Web User Interface. From the Integration Explorer view in the Toolkit, right-click <b>TEST_SERVER</b> and choose the option to <b>Start Web User Interface</b>. When your browser opens, you should see a square tile representing the <b>ShoppingListAPI</b> REST API. Click on the tile and you will be taken to an <b>Overview</b> page. On the left side of the main page there will be a list of all the available operations:<br><br><code>GET /shoppinglist</code><br><code>POST /shoppinglist</code><br><code>PUT /shoppinglist/{item}</code><br><code>DELETE /shoppinglist/{item}</code><br><code>GET /shopppinglist/{item}</code><br><br>When you select any of these operations in the following steps, you will see a <b>Try It</b> tab with boxes for parameters and the body of request data to be provided and a <b>Send</b> button for submitting requests. You can experiment for yourself, or try out the operations as in the order suggested below ..."
+					},
+					{
+						"details": "Use <b>getShoppingList</b> without typing anything in the Limit parameter, and note that the following three shopping list entries are returned:<br><br><code>[<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Bread\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Bakery\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"The best loaf for nearly no dough\"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Chocolates\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Confectionery\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"The most chocolate-y of chocolates\"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Crisps\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Snacks\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"Crisps not chips (because chips are fries)\"<br>&nbsp;&nbsp;}<br>]</code><br>"
+					},
+					{
+						"details": "Use <b>getShoppingList</b> with a value for the Limit parameter of 2, and note that the following two shopping list entries are returned:<br><br><code>[<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Bread\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Bakery\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"The best loaf for nearly no dough\"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Chocolates\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Confectionery\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"The most chocolate-y of chocolates\"<br>&nbsp;&nbsp;}<br>]</code><br>"
+					},
+					{
+						"details": "Use <b>postShoppingList</b> with the body message as follows:<br><br><code>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Merlot\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Beverages\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"A nice red\"<br>&nbsp;&nbsp;}</code><br>"
+					},
+					{
+						"details": "Use <b>getItem</b> and note that the details for the item we just created are returned."
+					},
+					{
+						"details": "Use <b>putItem</b> with the body message as follows:<br><br><code>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Merlot\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Beverages\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"The finest of wines\"<br>&nbsp;&nbsp;}</code><br>"
+					},
+					{
+						"details": "Use <b>getItem</b> and note that the details for the item which are returned have now been updated."
+					},
+					{
+						"details": "Use <b>deleteItem</b> and note that the return status code demonstrates a successful deletion."
+					},
+					{
+						"details": "Use <b>getShoppingList</b> without typing anything in the Limit parameter, and note that we are back to the following three shopping list entries being returned:<br><br><code>[<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Bread\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Bakery\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"The best loaf for nearly no dough\"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Chocolates\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Confectionery\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"The most chocolate-y of chocolates\"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"name\": \"Crisps\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"department\": \"Snacks\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"Crisps not chips (because chips are fries)\"<br>&nbsp;&nbsp;}<br>]</code><br>"
+					},
+					{
+						"details":"This tutorial has shown how to create an IBM App Connect Enterprise REST API by importing an OpenAPI Specification v3 document, and then implement and test its subflow operations."
+					}				
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }		
+  }
