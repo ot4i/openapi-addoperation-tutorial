@@ -24,7 +24,7 @@
     },
 	"tutorial":{
       "_common":{
-        "name":"Open API Specification v3 - Adding an operation to a REST API using the API Editor",
+        "name":"OpenAPI Specification v3 - Adding an operation to a REST API using the API Editor",
         "shortDescription":"Learn how to use the API Editor to add an operation to an IBM App Connect Enterprise REST API which conforms to the OpenAPI Specification v3",
         "durationText":"This tutorial takes approximately",
         "durationTime":"15 minutes",
